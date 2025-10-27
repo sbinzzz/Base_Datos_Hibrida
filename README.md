@@ -15,7 +15,7 @@ Carlos Alberto Hernández Guardado
 
 Kevin Adonay Hernández Mejía
 
-Descripción general
+## Descripción general
 
 Este proyecto implementa una base de datos híbrida que combina SQL Server y MongoDB para la gestión de ventas de una cafetería.
 El objetivo es aprovechar las ventajas de cada tecnología:
@@ -83,7 +83,7 @@ Consultas incluidas
     Total de ingresos por día
     Ventas con método de pago “Efectivo”
 
-Conclusión
+## Conclusión
 
 El sistema de gestión de ventas híbrido demuestra la integración efectiva entre bases de datos relacionales y no relacionales.
 Con esta arquitectura se logra:
