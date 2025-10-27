@@ -24,13 +24,14 @@ SQL Server: Control transaccional, integridad referencial y manejo de ventas, cl
 
 MongoDB: Almacenamiento flexible de datos analíticos y estadísticas de ventas.
 
-Tecnologías utilizadas
-Tipo	Tecnología	Versión / Herramienta
-Base de datos relacional	SQL Server	2019
-Base de datos NoSQL	MongoDB	8.0 (Shell o Compass)
-Lenguajes	SQL, JavaScript (para mongosh)	
-Entorno	Visual Studio Code, SSMS, mongosh
+## Tecnologías utilizadas
 
+| Tipo | Tecnología | Versión / Herramienta |
+|------|-------------|------------------------|
+| Base de datos relacional | SQL Server | 2019 |
+| Base de datos NoSQL | MongoDB | 8.0 (Shell o Compass) |
+| Lenguajes | SQL, JavaScript | (para mongosh) |
+| Entorno | Visual Studio Code, SSMS, mongosh | — |
 Instrucciones de ejecución
 
 1. SQL Server
@@ -55,10 +56,13 @@ Instrucciones de ejecución
 
     load("mongodb/consultas_mongodb.js")
 
-Integración híbrida
-Sistema	Campo clave	Descripción
-SQL Server	id_venta	Identificador principal de venta
-MongoDB	id_venta	Referencia cruzada de la venta para análisis
+## Integración híbrida
+
+| Sistema | Campo clave | Descripción |
+|----------|--------------|-------------|
+| SQL Server | id_venta | Identificador principal de venta |
+| MongoDB | id_venta | Referencia cruzada de la venta para análisis |
+
 
 Ambas bases se sincronizan conceptualmente por el campo id_venta.
 Las transacciones se manejan en SQL Server y las estadísticas o reportes se procesan en MongoDB.
@@ -67,23 +71,17 @@ Consultas incluidas
 
 -SQL Server
 
-Productos más vendidos
-
-Total de ventas por cliente
-
-Ventas por fecha
-
-Actividad de triggers y bitácora (log_eventos)
-
-Ejemplo de transacción con COMMIT / ROLLBACK
+    Productos más vendidos
+    Total de ventas por cliente
+    Ventas por fecha
+    Actividad de triggers y bitácora (log_eventos)
+    Ejemplo de transacción con COMMIT / ROLLBACK
 
 -MongoDB
 
-Productos más vendidos (aggregate + $group)
-
-Total de ingresos por día
-
-Ventas con método de pago “Efectivo”
+    Productos más vendidos (aggregate + $group)
+    Total de ingresos por día
+    Ventas con método de pago “Efectivo”
 
 Conclusión
 
