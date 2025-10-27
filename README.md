@@ -1,4 +1,4 @@
-Sistema de Gestión de Ventas – Base de Datos Híbrida (SQL Server + MongoDB)
+## Sistema de Gestión de Ventas – Base de Datos Híbrida (SQL Server + MongoDB)
 Materia: Arquitectura de Datos Integral
 
 Integrantes del grupo:
