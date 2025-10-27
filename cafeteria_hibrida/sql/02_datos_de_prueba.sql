@@ -1,39 +1,39 @@
 --Datos de prueba
 
 INSERT INTO clientes (nombre, apellido, direccion, telefono) VALUES
-('Ana', 'López', 'Calle Central #12', '78541236'),
-('Carlos', 'García', 'Av. Libertad #45', '76231478'),
+('Ana', 'LÃ³pez', 'Calle Central #12', '78541236'),
+('Carlos', 'GarcÃ­a', 'Av. Libertad #45', '76231478'),
 ('Andrea', 'Linares', 'Col. Las Flores', '78965412'),
-('Kevin', 'Hernández', 'Calle San Pedro #2', '78563214'),
+('Kevin', 'HernÃ¡ndez', 'Calle San Pedro #2', '78563214'),
 ('Alan', 'Aguirre', 'Av. Las Victorias', '78952147'),
-('María', 'Vásquez', 'Col. El Carmen', '78231596'),
-('Wilfredo', 'Pérez', 'Calle 5 de Noviembre', '78596541'),
+('MarÃ­a', 'VÃ¡squez', 'Col. El Carmen', '78231596'),
+('Wilfredo', 'PÃ©rez', 'Calle 5 de Noviembre', '78596541'),
 ('Laura', 'Castillo', 'Calle Los Abetos', '78231654'),
-('José', 'Martínez', 'Av. Santa Lucía', '78965477'),
-('Rosa', 'Durán', 'Col. Las Margaritas', '78234518'),
+('JosÃ©', 'MartÃ­nez', 'Av. Santa LucÃ­a', '78965477'),
+('Rosa', 'DurÃ¡n', 'Col. Las Margaritas', '78234518'),
 ('Julio', 'Morales', 'Calle Primavera', '78945123'),
-('Paola', 'Reyes', 'Col. San José', '78963254'),
+('Paola', 'Reyes', 'Col. San JosÃ©', '78963254'),
 ('Daniel', 'Ortega', 'Calle El Pino', '78265419'),
 ('Carmen', 'Navarro', 'Av. Los Olivos', '78521469'),
-('Roberto', 'Guzmán', 'Col. El Paraíso', '78546987'),
-('Sofía', 'Campos', 'Calle 2 Oriente', '78963215'),
-('Esteban', 'Jiménez', 'Av. Las Acacias', '78963298'),
+('Roberto', 'GuzmÃ¡n', 'Col. El ParaÃ­so', '78546987'),
+('SofÃ­a', 'Campos', 'Calle 2 Oriente', '78963215'),
+('Esteban', 'JimÃ©nez', 'Av. Las Acacias', '78963298'),
 ('Karla', 'Rivas', 'Col. San Antonio', '78542361'),
 ('Ricardo', 'Alvarado', 'Calle Central', '78963245'),
-('Diana', 'Mejía', 'Col. Monte Verde', '78521478');
-
+('Diana', 'MejÃ­a', 'Col. Monte Verde', '78521478');
+GO
 
 INSERT INTO proveedores (nit, nombre, direccion, telefono, correo) VALUES
-(1001, 'Distribuidora Café El Grano', 'San Salvador', '78562147', 'elgrano@prove.com'),
-(1002, 'Lácteos del Valle', 'Santa Ana', '75689412', 'valle@prove.com'),
-(1003, 'Panadería La Espiga', 'Cabañas', '78965412', 'espiga@prove.com'),
-(1004, 'Azúcar del Campo', 'San Miguel', '78541236', 'azucar@prove.com'),
+(1001, 'Distribuidora CafÃ© El Grano', 'San Salvador', '78562147', 'elgrano@prove.com'),
+(1002, 'LÃ¡cteos del Valle', 'Santa Ana', '75689412', 'valle@prove.com'),
+(1003, 'PanaderÃ­a La Espiga', 'CabaÃ±as', '78965412', 'espiga@prove.com'),
+(1004, 'AzÃºcar del Campo', 'San Miguel', '78541236', 'azucar@prove.com'),
 (1005, 'Chocolates Selectos', 'San Salvador', '78451236', 'selectos@prove.com');
-
+GO
 
 INSERT INTO productos (nit, nombre, precio, stock) VALUES
-(1001, 'Café Americano', 2.50, 60),
-(1001, 'Café Latte', 3.25, 40),
+(1001, 'CafÃ© Americano', 2.50, 60),
+(1001, 'CafÃ© Latte', 3.25, 40),
 (1001, 'Capuchino', 3.00, 35),
 (1001, 'Espresso', 2.00, 50),
 (1005, 'Chocolate Caliente', 2.75, 30),
@@ -41,23 +41,23 @@ INSERT INTO productos (nit, nombre, precio, stock) VALUES
 (1002, 'Leche Deslactosada', 1.60, 90),
 (1003, 'Croissant', 1.25, 40),
 (1003, 'Pan Dulce', 0.75, 80),
-(1003, 'Empanada de Piña', 0.85, 50),
-(1004, 'Azúcar Blanca 1kg', 1.20, 60),
-(1004, 'Azúcar Morena 1kg', 1.25, 60),
+(1003, 'Empanada de PiÃ±a', 0.85, 50),
+(1004, 'AzÃºcar Blanca 1kg', 1.20, 60),
+(1004, 'AzÃºcar Morena 1kg', 1.25, 60),
 (1001, 'Mocaccino', 3.50, 25),
 (1005, 'Chocolate Blanco', 3.00, 30),
 (1005, 'Chocolate con Leche', 2.80, 30),
 (1002, 'Crema Batida', 1.50, 40),
-(1001, 'Café Frappé', 3.75, 25),
+(1001, 'CafÃ© FrappÃ©', 3.75, 25),
 (1002, 'Yogur Natural', 1.20, 40),
 (1003, 'Pan de Queso', 0.90, 50),
-(1001, 'Café Helado', 3.10, 30),
+(1001, 'CafÃ© Helado', 3.10, 30),
 (1001, 'Latte de Caramelo', 3.60, 30),
 (1005, 'Chocolate Oscuro', 3.25, 25),
 (1002, 'Queso Fresco', 2.50, 30),
-(1004, 'Azúcar Glas', 1.40, 20),
+(1004, 'AzÃºcar Glas', 1.40, 20),
 (1003, 'Pan de Ajo', 1.00, 30);
-
+GO
 
 INSERT INTO ventas (id_cliente, codigo_producto, cantidad, total) VALUES
 (1, 1, 2, 5.00),
