@@ -1,7 +1,56 @@
 use cafeteria_hibrida;
 
-db.createCollection("estadisticas");
-
+// colección estadísticas con validación
+db.createCollection("estadisticas", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["id_venta", "codigo_producto", "nombre_producto", "cantidad_vendida", "total_venta", "fecha", "metodo_pago", "ubicacion", "vendedor"],
+      properties: {
+        id_venta: {
+          bsonType: "int",
+          description: "ID unico de la venta - requerido"
+        },
+        codigo_producto: {
+          bsonType: "int",
+          description: "Codigo del producto - requerido"
+        },
+        nombre_producto: {
+          bsonType: "string",
+          description: "Nombre del producto - requerido"
+        },
+        cantidad_vendida: {
+          bsonType: "int",
+          minimum: 1,
+          description: "Cantidad vendida debe ser mayor a 0"
+        },
+        total_venta: {
+          bsonType: "double",
+          minimum: 0,
+          description: "Total de la venta debe ser positivo"
+        },
+        fecha: {
+          bsonType: "date",
+          description: "Fecha de la venta - requerido"
+        },
+        metodo_pago: {
+          bsonType: "string",
+          enum: ["Efectivo", "Tarjeta"],
+          description: "Solo acepta Efectivo o Tarjeta"
+        },
+        ubicacion: {
+          bsonType: "string",
+          description: "Ubicacion de la venta"
+        },
+        vendedor: {
+          bsonType: "string",
+          description: "Nombre del vendedor"
+        }
+      }
+    }
+  }
+});
+// insertar datos
 db.estadisticas.insertMany([
   { id_venta: 1, codigo_producto: 1, nombre_producto: "Café Americano", cantidad_vendida: 2, total_venta: 5.00, fecha: new Date("2025-10-21"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
   { id_venta: 2, codigo_producto: 2, nombre_producto: "Café Latte", cantidad_vendida: 1, total_venta: 3.25, fecha: new Date("2025-10-21"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
@@ -54,3 +103,73 @@ db.estadisticas.insertMany([
   { id_venta: 49, codigo_producto: 24, nombre_producto: "Azúcar Glas", cantidad_vendida: 1, total_venta: 1.40, fecha: new Date("2025-11-08"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Carlos Hernández" },
   { id_venta: 50, codigo_producto: 25, nombre_producto: "Pan de Ajo", cantidad_vendida: 3, total_venta: 3.00, fecha: new Date("2025-11-08"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Sebastián González" }
 ]);
+// índices
+db.estadisticas.createIndex({ fecha: 1 });
+db.estadisticas.createIndex({ codigo_producto: 1 });
+db.estadisticas.createIndex({ vendedor: 1 });
+db.estadisticas.createIndex({ fecha: 1, metodo_pago: 1 });
+// colección vendedores
+db.createCollection("vendedores", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["id_vendedor", "nombre", "ubicacion"],
+      properties: {
+        id_vendedor: { bsonType: "int" },
+        nombre: { bsonType: "string" },
+        ubicacion: { bsonType: "string" },
+        ventas_totales: { bsonType: "int", minimum: 0 }
+      }
+    }
+  }
+});
+
+db.vendedores.insertMany([
+  { id_vendedor: 1, nombre: "Sebastián González", ubicacion: "Guacotecti", ventas_totales: 11 },
+  { id_vendedor: 2, nombre: "Andrea Linares", ubicacion: "Guacotecti", ventas_totales: 11 },
+  { id_vendedor: 3, nombre: "Alan Aguirre", ubicacion: "Guacotecti", ventas_totales: 9 },
+  { id_vendedor: 4, nombre: "Carlos Hernández", ubicacion: "Guacotecti", ventas_totales: 4 },
+  { id_vendedor: 5, nombre: "Kevin Hernández", ubicacion: "Guacotecti", ventas_totales: 5 }
+]);
+// esto fallará por la validacion
+db.estadisticas.insertOne({
+  id_venta: 999,
+  codigo_producto: 1,
+  nombre_producto: "Cafe Test",
+  cantidad_vendida: 0,
+  total_venta: 0,
+  fecha: new Date(),
+  metodo_pago: "Efectivo",
+  ubicacion: "Test",
+  vendedor: "Test"
+});
+
+// consultas
+db.estadisticas.aggregate([
+  { $group: { _id: "$nombre_producto", total_vendido: { $sum: "$cantidad_vendida" } } },
+  { $sort: { total_vendido: -1 } },
+  { $limit: 5 }
+]);
+
+db.estadisticas.aggregate([
+  { $group: { _id: "$fecha", ingresos_dia: { $sum: "$total_venta" } } },
+  { $sort: { _id: 1 } }
+]);
+
+db.estadisticas.aggregate([
+  { $group: { _id: "$metodo_pago", total_ventas: { $sum: 1 }, total_ingresos: { $sum: "$total_venta" } } }
+]);
+
+db.estadisticas.aggregate([
+  {
+    $lookup: {
+      from: "vendedores",
+      localField: "vendedor",
+      foreignField: "nombre",
+      as: "info_vendedor"
+    }
+  },
+  { $limit: 3 }
+]);
+
+db.estadisticas.getIndexes();
