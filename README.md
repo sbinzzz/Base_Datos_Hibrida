@@ -50,7 +50,7 @@ Instrucciones de ejecución
 
 -Carga los datos de prueba con:
 
-    load("mongodb/datos_prueba_mongodb.js")
+    load("mongodb/datos_de_prueba.js")
 
 -Ejecuta las consultas de análisis:
 
