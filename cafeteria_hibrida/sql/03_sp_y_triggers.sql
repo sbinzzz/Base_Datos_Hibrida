@@ -27,6 +27,7 @@ BEGIN
         PRINT 'Error al registrar la venta';
     END CATCH
 END;
+GO
 
 --SP para actualizar el precio de producto
 CREATE PROCEDURE sp_actualizar_precio
@@ -38,6 +39,7 @@ BEGIN
     SET precio = @nuevo_precio
     WHERE codigo_producto = @codigo_producto;
 END;
+GO
 
 --SP para generar reporte de ventas
 CREATE PROCEDURE sp_reporte_ventas
@@ -56,7 +58,7 @@ CREATE TABLE log_eventos (
     descripcion NVARCHAR(200),
     fecha DATETIME DEFAULT GETDATE()
 );
-go
+GO
 
 CREATE TRIGGER trg_venta_insert
 ON ventas
@@ -67,5 +69,5 @@ BEGIN
     SELECT @id_venta = id_venta FROM inserted;
 
     INSERT INTO log_eventos (descripcion)
-    VALUES (CONCAT('Se registró la venta ID ', @id_venta));
+    VALUES (CONCAT('Se registrÃ³ la venta ID ', @id_venta));
 END;

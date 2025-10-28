@@ -1,0 +1,16 @@
+//Conectar con los servidors
+mongod --port 27017 --dbpath /data/rs0-0 --replSet CafeteriaDB
+mongod --port 27018 --dbpath /data/rs0-0 --replSet CafeteriaDB
+
+
+//Realizar replica
+rs.initiate(
+   {
+      _id: "CafeteriaDB", // Aquí se usa el nuevo nombre
+      members: [
+         { _id: 0, host: "localhost:27017" },
+         { _id: 1, host: "localhost:27018" },
+         { _id: 2, host: "localhost:27019" }
+      ]
+   }
+)
