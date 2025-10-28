@@ -1,113 +1,275 @@
 use cafeteria_hibrida;
 
+// Esto se ejecuta en MongoDB Compass, específicamente su shell integrado (mongosh). 
+// las consultas se hacen en la interfaz gráfica de Compass.
 // colección estadísticas con validación
-db.createCollection("estadisticas", {
+db.createCollection("ventas", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["id_venta", "codigo_producto", "nombre_producto", "cantidad_vendida", "total_venta", "fecha", "metodo_pago", "ubicacion", "vendedor"],
+      required: [
+        "id_venta",
+        "codigo_producto",
+        "nombre_producto",
+        "cantidad_vendida",
+        "total_venta",
+        "fecha",
+        "metodo_pago",
+        "ubicacion",
+        "vendedor"
+      ],
       properties: {
-        id_venta: {
-          bsonType: "int",
-          description: "ID unico de la venta - requerido"
-        },
-        codigo_producto: {
-          bsonType: "int",
-          description: "Codigo del producto - requerido"
-        },
-        nombre_producto: {
-          bsonType: "string",
-          description: "Nombre del producto - requerido"
-        },
-        cantidad_vendida: {
-          bsonType: "int",
-          minimum: 1,
-          description: "Cantidad vendida debe ser mayor a 0"
-        },
-        total_venta: {
-          bsonType: "double",
-          minimum: 0,
-          description: "Total de la venta debe ser positivo"
-        },
-        fecha: {
-          bsonType: "date",
-          description: "Fecha de la venta - requerido"
-        },
-        metodo_pago: {
-          bsonType: "string",
-          enum: ["Efectivo", "Tarjeta"],
-          description: "Solo acepta Efectivo o Tarjeta"
-        },
-        ubicacion: {
-          bsonType: "string",
-          description: "Ubicacion de la venta"
-        },
-        vendedor: {
-          bsonType: "string",
-          description: "Nombre del vendedor"
-        }
+        id_venta: { bsonType: "int" },
+        codigo_producto: { bsonType: "int" },
+        nombre_producto: { bsonType: "string" },
+        cantidad_vendida: { bsonType: "int", minimum: 1 },
+        total_venta: { bsonType: ["double", "int"], minimum: 0, description: "Total de la venta debe ser positivo" },
+        fecha: { bsonType: "date" },
+        metodo_pago: { bsonType: "string", enum: ["Efectivo", "Tarjeta"] },
+        ubicacion: { bsonType: "string" },
+        vendedor: { bsonType: "string" }
       }
     }
   }
 });
+
+
 // insertar datos
 db.estadisticas.insertMany([
-  { id_venta: 1, codigo_producto: 1, nombre_producto: "Café Americano", cantidad_vendida: 2, total_venta: 5.00, fecha: new Date("2025-10-21"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
-  { id_venta: 2, codigo_producto: 2, nombre_producto: "Café Latte", cantidad_vendida: 1, total_venta: 3.25, fecha: new Date("2025-10-21"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 3, codigo_producto: 3, nombre_producto: "Capuchino", cantidad_vendida: 3, total_venta: 9.00, fecha: new Date("2025-10-22"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Alan Aguirre" },
-  { id_venta: 4, codigo_producto: 4, nombre_producto: "Espresso", cantidad_vendida: 1, total_venta: 2.00, fecha: new Date("2025-10-22"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Carlos Hernández" },
-  { id_venta: 5, codigo_producto: 5, nombre_producto: "Chocolate Caliente", cantidad_vendida: 2, total_venta: 5.50, fecha: new Date("2025-10-23"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Kevin Hernández" },
-  { id_venta: 6, codigo_producto: 6, nombre_producto: "Leche Entera", cantidad_vendida: 3, total_venta: 4.50, fecha: new Date("2025-10-23"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Alan Aguirre" },
-  { id_venta: 7, codigo_producto: 7, nombre_producto: "Leche Deslactosada", cantidad_vendida: 1, total_venta: 1.60, fecha: new Date("2025-10-23"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 8, codigo_producto: 8, nombre_producto: "Croissant", cantidad_vendida: 2, total_venta: 2.50, fecha: new Date("2025-10-24"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
-  { id_venta: 9, codigo_producto: 9, nombre_producto: "Pan Dulce", cantidad_vendida: 4, total_venta: 3.00, fecha: new Date("2025-10-24"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 10, codigo_producto: 10, nombre_producto: "Empanada de Piña", cantidad_vendida: 1, total_venta: 0.85, fecha: new Date("2025-10-25"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Carlos Hernández" },
-  { id_venta: 11, codigo_producto: 11, nombre_producto: "Azúcar Blanca 1kg", cantidad_vendida: 2, total_venta: 2.40, fecha: new Date("2025-10-25"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
-  { id_venta: 12, codigo_producto: 12, nombre_producto: "Azúcar Morena 1kg", cantidad_vendida: 3, total_venta: 3.75, fecha: new Date("2025-10-25"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 13, codigo_producto: 13, nombre_producto: "Mocaccino", cantidad_vendida: 1, total_venta: 3.50, fecha: new Date("2025-10-26"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Alan Aguirre" },
-  { id_venta: 14, codigo_producto: 14, nombre_producto: "Chocolate Blanco", cantidad_vendida: 2, total_venta: 6.00, fecha: new Date("2025-10-26"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
-  { id_venta: 15, codigo_producto: 15, nombre_producto: "Chocolate con Leche", cantidad_vendida: 1, total_venta: 2.80, fecha: new Date("2025-10-26"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Kevin Hernández" },
-  { id_venta: 16, codigo_producto: 16, nombre_producto: "Crema Batida", cantidad_vendida: 3, total_venta: 4.50, fecha: new Date("2025-10-27"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 17, codigo_producto: 17, nombre_producto: "Café Frappé", cantidad_vendida: 2, total_venta: 7.50, fecha: new Date("2025-10-27"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Alan Aguirre" },
-  { id_venta: 18, codigo_producto: 18, nombre_producto: "Yogur Natural", cantidad_vendida: 1, total_venta: 1.20, fecha: new Date("2025-10-27"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 19, codigo_producto: 19, nombre_producto: "Pan de Queso", cantidad_vendida: 2, total_venta: 1.80, fecha: new Date("2025-10-28"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
-  { id_venta: 20, codigo_producto: 20, nombre_producto: "Café Helado", cantidad_vendida: 3, total_venta: 9.30, fecha: new Date("2025-10-28"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Alan Aguirre" },
-  { id_venta: 21, codigo_producto: 21, nombre_producto: "Latte de Caramelo", cantidad_vendida: 1, total_venta: 3.60, fecha: new Date("2025-10-29"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 22, codigo_producto: 22, nombre_producto: "Chocolate Oscuro", cantidad_vendida: 1, total_venta: 3.25, fecha: new Date("2025-10-29"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Kevin Hernández" },
-  { id_venta: 23, codigo_producto: 23, nombre_producto: "Queso Fresco", cantidad_vendida: 2, total_venta: 5.00, fecha: new Date("2025-10-29"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
-  { id_venta: 24, codigo_producto: 24, nombre_producto: "Azúcar Glas", cantidad_vendida: 1, total_venta: 1.40, fecha: new Date("2025-10-29"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 25, codigo_producto: 25, nombre_producto: "Pan de Ajo", cantidad_vendida: 3, total_venta: 3.00, fecha: new Date("2025-10-30"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Alan Aguirre" },
-  { id_venta: 26, codigo_producto: 1, nombre_producto: "Café Americano", cantidad_vendida: 1, total_venta: 2.50, fecha: new Date("2025-10-30"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Carlos Hernández" },
-  { id_venta: 27, codigo_producto: 2, nombre_producto: "Café Latte", cantidad_vendida: 2, total_venta: 6.50, fecha: new Date("2025-10-31"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 28, codigo_producto: 3, nombre_producto: "Capuchino", cantidad_vendida: 1, total_venta: 3.00, fecha: new Date("2025-10-31"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
-  { id_venta: 29, codigo_producto: 4, nombre_producto: "Espresso", cantidad_vendida: 3, total_venta: 6.00, fecha: new Date("2025-11-01"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Alan Aguirre" },
-  { id_venta: 30, codigo_producto: 5, nombre_producto: "Chocolate Caliente", cantidad_vendida: 2, total_venta: 5.50, fecha: new Date("2025-11-01"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Kevin Hernández" },
-  { id_venta: 31, codigo_producto: 6, nombre_producto: "Leche Entera", cantidad_vendida: 4, total_venta: 6.00, fecha: new Date("2025-11-01"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 32, codigo_producto: 7, nombre_producto: "Leche Deslactosada", cantidad_vendida: 2, total_venta: 3.20, fecha: new Date("2025-11-02"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
-  { id_venta: 33, codigo_producto: 8, nombre_producto: "Croissant", cantidad_vendida: 3, total_venta: 3.75, fecha: new Date("2025-11-02"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Alan Aguirre" },
-  { id_venta: 34, codigo_producto: 9, nombre_producto: "Pan Dulce", cantidad_vendida: 2, total_venta: 1.50, fecha: new Date("2025-11-02"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 35, codigo_producto: 10, nombre_producto: "Empanada de Piña", cantidad_vendida: 4, total_venta: 3.40, fecha: new Date("2025-11-03"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Carlos Hernández" },
-  { id_venta: 36, codigo_producto: 11, nombre_producto: "Azúcar Blanca 1kg", cantidad_vendida: 2, total_venta: 2.40, fecha: new Date("2025-11-03"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Kevin Hernández" },
-  { id_venta: 37, codigo_producto: 12, nombre_producto: "Azúcar Morena 1kg", cantidad_vendida: 1, total_venta: 1.25, fecha: new Date("2025-11-03"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
-  { id_venta: 38, codigo_producto: 13, nombre_producto: "Mocaccino", cantidad_vendida: 2, total_venta: 7.00, fecha: new Date("2025-11-04"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 39, codigo_producto: 14, nombre_producto: "Chocolate Blanco", cantidad_vendida: 3, total_venta: 9.00, fecha: new Date("2025-11-04"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Alan Aguirre" },
-  { id_venta: 40, codigo_producto: 15, nombre_producto: "Chocolate con Leche", cantidad_vendida: 1, total_venta: 2.80, fecha: new Date("2025-11-04"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Kevin Hernández" },
-  { id_venta: 41, codigo_producto: 16, nombre_producto: "Crema Batida", cantidad_vendida: 2, total_venta: 3.00, fecha: new Date("2025-11-05"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 42, codigo_producto: 17, nombre_producto: "Café Frappé", cantidad_vendida: 2, total_venta: 7.50, fecha: new Date("2025-11-05"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
-  { id_venta: 43, codigo_producto: 18, nombre_producto: "Yogur Natural", cantidad_vendida: 3, total_venta: 3.60, fecha: new Date("2025-11-06"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Alan Aguirre" },
-  { id_venta: 44, codigo_producto: 19, nombre_producto: "Pan de Queso", cantidad_vendida: 2, total_venta: 1.80, fecha: new Date("2025-11-06"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 45, codigo_producto: 20, nombre_producto: "Café Helado", cantidad_vendida: 1, total_venta: 3.10, fecha: new Date("2025-11-06"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Sebastián González" },
-  { id_venta: 46, codigo_producto: 21, nombre_producto: "Latte de Caramelo", cantidad_vendida: 1, total_venta: 3.60, fecha: new Date("2025-11-07"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Alan Aguirre" },
-  { id_venta: 47, codigo_producto: 22, nombre_producto: "Chocolate Oscuro", cantidad_vendida: 1, total_venta: 3.25, fecha: new Date("2025-11-07"), metodo_pago: "Tarjeta", ubicacion: "Guacotecti", vendedor: "Kevin Hernández" },
-  { id_venta: 48, codigo_producto: 23, nombre_producto: "Queso Fresco", cantidad_vendida: 2, total_venta: 5.00, fecha: new Date("2025-11-07"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Andrea Linares" },
-  { id_venta: 49, codigo_producto: 24, nombre_producto: "Azúcar Glas", cantidad_vendida: 1, total_venta: 1.40, fecha: new Date("2025-11-08"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Carlos Hernández" },
-  { id_venta: 50, codigo_producto: 25, nombre_producto: "Pan de Ajo", cantidad_vendida: 3, total_venta: 3.00, fecha: new Date("2025-11-08"), metodo_pago: "Efectivo", ubicacion: "Guacotecti", vendedor: "Sebastián González" }
+  {
+    id_venta: NumberInt(1),
+    codigo_producto: NumberInt(201),
+    nombre_producto: "Café Americano",
+    cantidad_vendida: NumberInt(3),
+    total_venta: 15.00,
+    fecha: new Date("2025-01-10"),
+    metodo_pago: "Efectivo",
+    ubicacion: "Guacotecti",
+    vendedor: "Kevin Hernández"
+  },
+  {
+    id_venta: NumberInt(2),
+    codigo_producto: NumberInt(202),
+    nombre_producto: "Café Latte",
+    cantidad_vendida: NumberInt(2),
+    total_venta: 10.00,
+    fecha: new Date("2025-01-11"),
+    metodo_pago: "Tarjeta",
+    ubicacion: "Guacotecti",
+    vendedor: "Alan Aguirre"
+  },
+  {
+    id_venta: NumberInt(3),
+    codigo_producto: NumberInt(203),
+    nombre_producto: "Té Verde",
+    cantidad_vendida: NumberInt(5),
+    total_venta: 12.50,
+    fecha: new Date("2025-01-12"),
+    metodo_pago: "Efectivo",
+    ubicacion: "Guacotecti",
+    vendedor: "Sebastián González"
+  },
+  {
+    id_venta: NumberInt(4),
+    codigo_producto: NumberInt(204),
+    nombre_producto: "Croissant",
+    cantidad_vendida: NumberInt(4),
+    total_venta: 8.00,
+    fecha: new Date("2025-01-13"),
+    metodo_pago: "Tarjeta",
+    ubicacion: "Guacotecti",
+    vendedor: "Carlos Hernández"
+  },
+  {
+    id_venta: NumberInt(5),
+    codigo_producto: NumberInt(205),
+    nombre_producto: "Tarta de Chocolate",
+    cantidad_vendida: NumberInt(2),
+    total_venta: 15.00,
+    fecha: new Date("2025-01-14"),
+    metodo_pago: "Efectivo",
+    ubicacion: "Guacotecti",
+    vendedor: "Andrea Linares"
+  },
+  {
+    id_venta: NumberInt(6),
+    codigo_producto: NumberInt(206),
+    nombre_producto: "Café Mocha",
+    cantidad_vendida: NumberInt(1),
+    total_venta: 5.00,
+    fecha: new Date("2025-02-05"),
+    metodo_pago: "Tarjeta",
+    ubicacion: "Guacotecti",
+    vendedor: "Kevin Hernández"
+  },
+  {
+    id_venta: NumberInt(7),
+    codigo_producto: NumberInt(207),
+    nombre_producto: "Smoothie de Frutas",
+    cantidad_vendida: NumberInt(3),
+    total_venta: 18.00,
+    fecha: new Date("2025-02-10"),
+    metodo_pago: "Efectivo",
+    ubicacion: "Guacotecti",
+    vendedor: "Alan Aguirre"
+  },
+  {
+    id_venta: NumberInt(8),
+    codigo_producto: NumberInt(208),
+    nombre_producto: "Bocadillo de Jamón",
+    cantidad_vendida: NumberInt(2),
+    total_venta: 10.00,
+    fecha: new Date("2025-02-15"),
+    metodo_pago: "Tarjeta",
+    ubicacion: "Guacotecti",
+    vendedor: "Sebastián González"
+  },
+  {
+    id_venta: NumberInt(9),
+    codigo_producto: NumberInt(209),
+    nombre_producto: "Café con Leche",
+    cantidad_vendida: NumberInt(4),
+    total_venta: 20.00,
+    fecha: new Date("2025-03-01"),
+    metodo_pago: "Efectivo",
+    ubicacion: "Guacotecti",
+    vendedor: "Carlos Hernández"
+  },
+  {
+    id_venta: NumberInt(10),
+    codigo_producto: NumberInt(210),
+    nombre_producto: "Galletas Assortidas",
+    cantidad_vendida: NumberInt(6),
+    total_venta: 12.00,
+    fecha: new Date("2025-03-05"),
+    metodo_pago: "Tarjeta",
+    ubicacion: "Guacotecti",
+    vendedor: "Andrea Linares"
+  }
 ]);
+
+db.estadisticas.insertMany([
+  {
+    id_venta: NumberInt(11),
+    codigo_producto: NumberInt(211),
+    nombre_producto: "Muffin de Arándanos",
+    cantidad_vendida: NumberInt(5),
+    total_venta: 17.50,
+    fecha: new Date("2025-03-08"),
+    metodo_pago: "Efectivo",
+    ubicacion: "Guacotecti",
+    vendedor: "Kevin Hernández"
+  },
+  {
+    id_venta: NumberInt(12),
+    codigo_producto: NumberInt(212),
+    nombre_producto: "Capuchino",
+    cantidad_vendida: NumberInt(3),
+    total_venta: 13.50,
+    fecha: new Date("2025-03-10"),
+    metodo_pago: "Tarjeta",
+    ubicacion: "Guacotecti",
+    vendedor: "Alan Aguirre"
+  },
+  {
+    id_venta: NumberInt(13),
+    codigo_producto: NumberInt(213),
+    nombre_producto: "Panini de Pollo",
+    cantidad_vendida: NumberInt(4),
+    total_venta: 22.00,
+    fecha: new Date("2025-03-12"),
+    metodo_pago: "Efectivo",
+    ubicacion: "Guacotecti",
+    vendedor: "Sebastián González"
+  },
+  {
+    id_venta: NumberInt(14),
+    codigo_producto: NumberInt(214),
+    nombre_producto: "Brownie de Chocolate",
+    cantidad_vendida: NumberInt(2),
+    total_venta: 9.00,
+    fecha: new Date("2025-03-15"),
+    metodo_pago: "Tarjeta",
+    ubicacion: "Guacotecti",
+    vendedor: "Carlos Hernández"
+  },
+  {
+    id_venta: NumberInt(15),
+    codigo_producto: NumberInt(215),
+    nombre_producto: "Café Espresso",
+    cantidad_vendida: NumberInt(6),
+    total_venta: 18.00,
+    fecha: new Date("2025-03-18"),
+    metodo_pago: "Efectivo",
+    ubicacion: "Guacotecti",
+    vendedor: "Andrea Linares"
+  },
+  {
+    id_venta: NumberInt(16),
+    codigo_producto: NumberInt(216),
+    nombre_producto: "Sandwich Vegetariano",
+    cantidad_vendida: NumberInt(3),
+    total_venta: 15.00,
+    fecha: new Date("2025-03-20"),
+    metodo_pago: "Tarjeta",
+    ubicacion: "Guacotecti",
+    vendedor: "Kevin Hernández"
+  },
+  {
+    id_venta: NumberInt(17),
+    codigo_producto: NumberInt(217),
+    nombre_producto: "Café Helado",
+    cantidad_vendida: NumberInt(4),
+    total_venta: 16.00,
+    fecha: new Date("2025-03-22"),
+    metodo_pago: "Efectivo",
+    ubicacion: "Guacotecti",
+    vendedor: "Alan Aguirre"
+  },
+  {
+    id_venta: NumberInt(18),
+    codigo_producto: NumberInt(218),
+    nombre_producto: "Té Chai",
+    cantidad_vendida: NumberInt(3),
+    total_venta: 9.00,
+    fecha: new Date("2025-03-25"),
+    metodo_pago: "Tarjeta",
+    ubicacion: "Guacotecti",
+    vendedor: "Sebastián González"
+  },
+  {
+    id_venta: NumberInt(19),
+    codigo_producto: NumberInt(219),
+    nombre_producto: "Empanada de Queso",
+    cantidad_vendida: NumberInt(5),
+    total_venta: 12.50,
+    fecha: new Date("2025-03-28"),
+    metodo_pago: "Efectivo",
+    ubicacion: "Guacotecti",
+    vendedor: "Carlos Hernández"
+  },
+  {
+    id_venta: NumberInt(20),
+    codigo_producto: NumberInt(220),
+    nombre_producto: "Pastel de Zanahoria",
+    cantidad_vendida: NumberInt(2),
+    total_venta: 10.00,
+    fecha: new Date("2025-03-30"),
+    metodo_pago: "Tarjeta",
+    ubicacion: "Guacotecti",
+    vendedor: "Andrea Linares"
+  }
+]);
+
+
 // índices
 db.estadisticas.createIndex({ fecha: 1 });
 db.estadisticas.createIndex({ codigo_producto: 1 });
 db.estadisticas.createIndex({ vendedor: 1 });
 db.estadisticas.createIndex({ fecha: 1, metodo_pago: 1 });
+
+// verificacion de creacion de índices
+db.estadisticas.getIndexes();
 // colección vendedores
 db.createCollection("vendedores", {
   validator: {
@@ -131,17 +293,25 @@ db.vendedores.insertMany([
   { id_vendedor: 4, nombre: "Carlos Hernández", ubicacion: "Guacotecti", ventas_totales: 4 },
   { id_vendedor: 5, nombre: "Kevin Hernández", ubicacion: "Guacotecti", ventas_totales: 5 }
 ]);
-// esto fallará por la validacion
-db.estadisticas.insertOne({
-  id_venta: 999,
-  codigo_producto: 1,
-  nombre_producto: "Cafe Test",
-  cantidad_vendida: 0,
-  total_venta: 0,
-  fecha: new Date(),
-  metodo_pago: "Efectivo",
-  ubicacion: "Test",
-  vendedor: "Test"
+// documento inválido para probar la validación de la colección vendedores
+db.vendedores.insertOne({
+  id_vendedor: 1,
+  // nombre está ausente
+  ubicacion: "Guacotecti",
+  ventas_totales: -5 // ventas_totales es negativo, lo cual no está permitido
+});
+
+// docuemento inválido para probar la validación de la colección estadísticas
+db.ventas.insertOne({
+  // id_venta está ausente
+  codigo_producto: 101,
+  nombre_producto: "Café Americano",
+  cantidad_vendida: 0, // cantidad_vendida debe ser mayor a 0
+  total_venta: -15.00, // total_venta es negativo, lo cual no está permitido
+  fecha: "2025-01-10", // fecha no es un objeto de tipo date
+  metodo_pago: "Monedero", // método de pago no es válido
+  ubicacion: "Guacotecti",
+  vendedor: "Kevin Hernández"
 });
 
 // consultas
@@ -172,4 +342,3 @@ db.estadisticas.aggregate([
   { $limit: 3 }
 ]);
 
-db.estadisticas.getIndexes();
