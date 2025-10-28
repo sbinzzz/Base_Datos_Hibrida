@@ -4,6 +4,21 @@ GO
 use cafeteriaDB
 GO
 
+--Creacion de permisos
+CREATE INDEX idx_clientes_nombre ON clientes(nombre);
+CREATE INDEX idx_productos_nombre ON productos(nombre);
+CREATE INDEX idx_ventas_fecha ON ventas(fecha);
+GO
+
+--Creacion de roles 
+CREATE ROLE rol_vendedor;
+CREATE ROLE rol_administrador;
+GO
+
+GRANT SELECT, INSERT ON ventas TO rol_vendedor;
+GRANT SELECT, INSERT, UPDATE, DELETE ON productos TO rol_administrador;
+GO
+
 CREATE TABLE clientes (
     id_cliente INT PRIMARY KEY IDENTITY(1,1),
     nombre NVARCHAR(50) NOT NULL,
