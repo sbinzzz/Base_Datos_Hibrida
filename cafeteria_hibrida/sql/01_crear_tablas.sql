@@ -4,7 +4,7 @@ GO
 use cafeteriaDB
 GO
 
---Creacion de permisos
+--Creacion de indices
 CREATE INDEX idx_clientes_nombre ON clientes(nombre);
 CREATE INDEX idx_productos_nombre ON productos(nombre);
 CREATE INDEX idx_ventas_fecha ON ventas(fecha);
