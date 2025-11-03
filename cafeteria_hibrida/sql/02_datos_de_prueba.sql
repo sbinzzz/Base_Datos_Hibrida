@@ -1,113 +1,89 @@
---Datos de prueba
+----------- INSERTAR DATOS DE PRUEBA ----------------
 
-INSERT INTO clientes (nombre, apellido, direccion, telefono) VALUES
-('Ana', 'López', 'Calle Central #12', '78541236'),
-('Carlos', 'García', 'Av. Libertad #45', '76231478'),
-('Andrea', 'Linares', 'Col. Las Flores', '78965412'),
-('Kevin', 'Hernández', 'Calle San Pedro #2', '78563214'),
-('Alan', 'Aguirre', 'Av. Las Victorias', '78952147'),
-('María', 'Vásquez', 'Col. El Carmen', '78231596'),
-('Wilfredo', 'Pérez', 'Calle 5 de Noviembre', '78596541'),
-('Laura', 'Castillo', 'Calle Los Abetos', '78231654'),
-('José', 'Martínez', 'Av. Santa Lucía', '78965477'),
-('Rosa', 'Durán', 'Col. Las Margaritas', '78234518'),
-('Julio', 'Morales', 'Calle Primavera', '78945123'),
-('Paola', 'Reyes', 'Col. San José', '78963254'),
-('Daniel', 'Ortega', 'Calle El Pino', '78265419'),
-('Carmen', 'Navarro', 'Av. Los Olivos', '78521469'),
-('Roberto', 'Guzmán', 'Col. El Paraíso', '78546987'),
-('Sofía', 'Campos', 'Calle 2 Oriente', '78963215'),
-('Esteban', 'Jiménez', 'Av. Las Acacias', '78963298'),
-('Karla', 'Rivas', 'Col. San Antonio', '78542361'),
-('Ricardo', 'Alvarado', 'Calle Central', '78963245'),
-('Diana', 'Mejía', 'Col. Monte Verde', '78521478');
+-- PROVEEDORES
+INSERT INTO Proveedor (Nombre, Correo, Telefono)
+VALUES 
+('Distribuidora Aroma', 'contacto@aroma.com', '7890-1234'),
+('Dulce Hogar S.A.', 'ventas@dulcehogar.com', '7123-4567'),
+('Frío Express', 'info@frioexpress.com', '7012-7890');
 GO
 
-INSERT INTO proveedores (nit, nombre, direccion, telefono, correo) VALUES
-(1001, 'Distribuidora Café El Grano', 'San Salvador', '78562147', 'elgrano@prove.com'),
-(1002, 'Lácteos del Valle', 'Santa Ana', '75689412', 'valle@prove.com'),
-(1003, 'Panadería La Espiga', 'Cabañas', '78965412', 'espiga@prove.com'),
-(1004, 'Azúcar del Campo', 'San Miguel', '78541236', 'azucar@prove.com'),
-(1005, 'Chocolates Selectos', 'San Salvador', '78451236', 'selectos@prove.com');
+-- CATEGORÍAS
+INSERT INTO Categoria (Nombre_Categoria)
+VALUES 
+('Cafes'),
+('Postres'),
+('Bebidas frias');
 GO
 
-INSERT INTO productos (nit, nombre, precio, stock) VALUES
-(1001, 'Café Americano', 2.50, 60),
-(1001, 'Café Latte', 3.25, 40),
-(1001, 'Capuchino', 3.00, 35),
-(1001, 'Espresso', 2.00, 50),
-(1005, 'Chocolate Caliente', 2.75, 30),
-(1002, 'Leche Entera', 1.50, 100),
-(1002, 'Leche Deslactosada', 1.60, 90),
-(1003, 'Croissant', 1.25, 40),
-(1003, 'Pan Dulce', 0.75, 80),
-(1003, 'Empanada de Piña', 0.85, 50),
-(1004, 'Azúcar Blanca 1kg', 1.20, 60),
-(1004, 'Azúcar Morena 1kg', 1.25, 60),
-(1001, 'Mocaccino', 3.50, 25),
-(1005, 'Chocolate Blanco', 3.00, 30),
-(1005, 'Chocolate con Leche', 2.80, 30),
-(1002, 'Crema Batida', 1.50, 40),
-(1001, 'Café Frappé', 3.75, 25),
-(1002, 'Yogur Natural', 1.20, 40),
-(1003, 'Pan de Queso', 0.90, 50),
-(1001, 'Café Helado', 3.10, 30),
-(1001, 'Latte de Caramelo', 3.60, 30),
-(1005, 'Chocolate Oscuro', 3.25, 25),
-(1002, 'Queso Fresco', 2.50, 30),
-(1004, 'Azúcar Glas', 1.40, 20),
-(1003, 'Pan de Ajo', 1.00, 30);
+-- PRODUCTOS
+INSERT INTO Producto (Nombre, Descripcion, Stock, Precio, IdCategoria, IdProveedor)
+VALUES
+-- Cafés
+('Café Americano', 'Café negro caliente', 50, 1.50, 1, 1),
+('Capuchino', 'Café con leche espumosa y canela', 40, 2.25, 1, 1),
+('Latte Vainilla', 'Café con leche y esencia de vainilla', 35, 2.50, 1, 1),
+
+-- Postres
+('Cheesecake', 'Pastel de queso con base de galleta', 20, 3.00, 2, 2),
+('Brownie', 'Pastel de chocolate con nueces', 25, 2.75, 2, 2),
+('Tiramisú', 'Postre italiano con café y cacao', 15, 3.50, 2, 2),
+
+-- Bebidas frías
+('Frappé de Caramelo', 'Bebida fría con caramelo y crema batida', 30, 2.80, 3, 3),
+('Smoothie de Fresa', 'Bebida de fresa natural con hielo', 25, 2.60, 3, 3),
+('Limonada Frozen', 'Refrescante bebida de limón con hielo', 40, 1.80, 3, 3);
 GO
 
-INSERT INTO ventas (id_cliente, codigo_producto, cantidad, total) VALUES
-(1, 1, 2, 5.00),
-(2, 2, 1, 3.25),
-(3, 3, 3, 9.00),
-(4, 4, 1, 2.00),
-(5, 5, 2, 5.50),
-(6, 6, 3, 4.50),
-(7, 7, 1, 1.60),
-(8, 8, 2, 2.50),
-(9, 9, 4, 3.00),
-(10, 10, 1, 0.85),
-(11, 11, 2, 2.40),
-(12, 12, 3, 3.75),
-(13, 13, 1, 3.50),
-(14, 14, 2, 6.00),
-(15, 15, 1, 2.80),
-(16, 16, 3, 4.50),
-(17, 17, 2, 7.50),
-(18, 18, 1, 1.20),
-(19, 19, 2, 1.80),
-(20, 20, 3, 9.30),
-(1, 21, 1, 3.60),
-(2, 22, 1, 3.25),
-(3, 23, 2, 5.00),
-(4, 24, 1, 1.40),
-(5, 25, 3, 3.00),
-(6, 1, 1, 2.50),
-(7, 2, 2, 6.50),
-(8, 3, 1, 3.00),
-(9, 4, 3, 6.00),
-(10, 5, 2, 5.50),
-(11, 6, 4, 6.00),
-(12, 7, 2, 3.20),
-(13, 8, 3, 3.75),
-(14, 9, 2, 1.50),
-(15, 10, 4, 3.40),
-(16, 11, 2, 2.40),
-(17, 12, 1, 1.25),
-(18, 13, 2, 7.00),
-(19, 14, 3, 9.00),
-(20, 15, 1, 2.80),
-(1, 16, 2, 3.00),
-(2, 17, 2, 7.50),
-(3, 18, 3, 3.60),
-(4, 19, 2, 1.80),
-(5, 20, 1, 3.10),
-(6, 21, 1, 3.60),
-(7, 22, 1, 3.25),
-(8, 23, 2, 5.00),
-(9, 24, 1, 1.40),
-(10, 25, 3, 3.00);
+-- CLIENTES
+INSERT INTO Cliente (Nombre, Apellido)
+VALUES 
+('Carlos', 'López'),
+('María', 'González'),
+('Andrés', 'Martínez'),
+('Lucía', 'Reyes'),
+('Javier', 'Torres');
+GO
 
+-- EMPLEADOS
+INSERT INTO Empleado (Nombre, Apellido)
+VALUES 
+('Ana', 'Ramírez'),
+('José', 'Morales'),
+('Laura', 'Castillo');
+GO
+
+-- VENTAS
+INSERT INTO Venta (TotalVenta, FechaHora, Id_Cliente, IdEmpleado)
+VALUES
+(6.55, '2025-10-21 09:15', 1, 1),
+(4.35, '2025-10-21 10:45', 2, 2),
+(7.30, '2025-10-21 11:10', 3, 3),
+(5.25, '2025-10-21 13:00', 4, 1),
+(3.50, '2025-10-21 15:20', 5, 2);
+GO
+
+-- DETALLE DE VENTAS
+INSERT INTO DetalleVenta (IdVenta, IdProducto, Cantidad)
+VALUES
+(1, 2, 1),
+(1, 5, 1),
+(2, 3, 1),
+(2, 9, 1),
+(3, 7, 1),
+(3, 4, 1),
+(4, 1, 2),
+(5, 6, 1);
+GO
+
+INSERT INTO Roles (NombreRol, Descripcion)
+VALUES
+('Administrador', 'Acceso completo a el sistema'),
+('Cajero', 'Gesttiona ventas y clientes'),
+('Inventario', 'Gestiona Productos y proveedores');
+
+INSERT INTO Usuarios (NombreUsuario, Contrasena, IdEmpleado, IdRol)
+VALUES
+('admin', 'admin123!', 1, 1),
+('cajero1', 'cajero123', 2, 2),
+('inventario1', 'inventario123', 3, 3);
